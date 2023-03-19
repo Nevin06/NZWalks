@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+//using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
+using NZWalks.API.Validators;
 
 namespace NZWalks.API.Controllers
 {
@@ -12,11 +13,17 @@ namespace NZWalks.API.Controllers
     {
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
+        private readonly AddRegionRequestValidator addRegionRequestValidator;
+        private readonly UpdateRegionRequestValidator updateRegionRequestValidator;
 
-        public RegionsController(IRegionRepository regionRepository, IMapper mapper)
+        public RegionsController(IRegionRepository regionRepository, IMapper mapper,
+            AddRegionRequestValidator addRegionRequestValidator, UpdateRegionRequestValidator 
+            updateRegionRequestValidator)
         {
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.addRegionRequestValidator = addRegionRequestValidator;
+            this.updateRegionRequestValidator = updateRegionRequestValidator;
         }
 
         [HttpGet]
@@ -67,10 +74,11 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> AddRegionAsync(AddRegionRequest addRegionRequest)
         {
             // Validate the Request
-            if (!ValidateAddRegionAsync(addRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateAddRegionAsync(addRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            //await addRegionRequestValidator.ValidateAndThrowAsync(addRegionRequest);
 
             // AddRegionRequest DTO to domain model
             var region = new Models.Domain.Region()
@@ -126,10 +134,11 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult>UpdateRegionAsync(Guid id, UpdateRegionRequest updateRegionRequest)
         {
             // Validate the Request
-            if (!ValidateUpdateRegionAsync(updateRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateUpdateRegionAsync(updateRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            //await updateRegionRequestValidator.ValidateAndThrowAsync(updateRegionRequest);
 
             // Convert UpdateRegionRequest DTO to domain model
             var region = new Models.Domain.Region()
